@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package informatica.eindopdracht.blok.pkg6.rogier.stegeman;
+package tentamenblok6;
 
 /**
  *
  * @author Rogier
  */
-public class Virus {
+public class VirusLogica {
     
 }
