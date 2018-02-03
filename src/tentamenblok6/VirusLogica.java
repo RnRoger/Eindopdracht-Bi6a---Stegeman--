@@ -41,14 +41,12 @@ public class VirusLogica {
                         System.out.println("Exception occurred");
                     }
                 }
-                
             } catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
             } catch (IOException e) {
                 System.out.println("IOException occurred");
             }
         }
-        //createObject(fileLines);
     }
     /*
     public static void createObject(ArrayList<String> fileText){
