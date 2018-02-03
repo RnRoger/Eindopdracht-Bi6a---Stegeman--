@@ -4,18 +4,55 @@
  * and open the template in the editor.
  */
 package tentamenblok6;
-import roger.file.*;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author Rogier
  */
+
 public class VirusLogica {
-    public static void openFile(String filename){
-        if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")){
-            
+    
+    //public static ArrayList<String> fileLines = new ArrayList<String>();
+    public static HashMap<Integer, Virus> virusHM = new HashMap<Integer, Virus>();  
+    
+    public static void openFile(String filename) {
+        if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
+
+        } else {
+            try {
+                filename = System.getProperty("user.dir")+"\\src\\tentamenblok6\\"+filename;
+                System.out.println("f: "+filename);
+                BufferedReader br = new BufferedReader(new FileReader(filename));
+                String line = br.readLine();
+                while (line != null) {
+                    try {
+                        //fileLines.add(line);
+                        line = br.readLine();
+                        Virus virusObject = new Virus();
+                        virusHM.put(Integer.SIZE, virusObject);
+                    } catch (NullPointerException e) {
+                        System.out.println("Exception occurred");
+                    }
+                }
+                
+            } catch (FileNotFoundException e) {
+                System.out.println("The file was not found");
+            } catch (IOException e) {
+                System.out.println("IOException occurred");
+            }
         }
-        else{
-            roger.file.ReadFile.bufferedReader(filename);
-        }
+        //createObject(fileLines);
     }
+    /*
+    public static void createObject(ArrayList<String> fileText){
+        for (String line : fileText){  
+        }
+    }*/
 }
