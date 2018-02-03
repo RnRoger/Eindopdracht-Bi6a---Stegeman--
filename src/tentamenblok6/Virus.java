@@ -5,6 +5,8 @@
  */
 package tentamenblok6;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rogier
@@ -13,6 +15,8 @@ public class Virus {
     
     private int id;
     private String soort;
+    private ArrayList<Integer> hostList = new ArrayList<>();
+    private String classificatie;
 
     /* Get the value of id
      * @return the value of id
