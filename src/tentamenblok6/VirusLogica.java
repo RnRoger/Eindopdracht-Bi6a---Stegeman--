@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -27,47 +28,41 @@ public class VirusLogica {
         } else {
             try {
                 filename = System.getProperty("user.dir") + "\\src\\tentamenblok6\\" + filename;
-                System.out.println("f: " + filename);
                 BufferedReader br = new BufferedReader(new FileReader(filename));
                 String nextLine = br.readLine();
-                System.out.println(nextLine);
-                String[] line;
-                String fullline = "";
+                String[] line = {};
                 String previousID = "";
-                String test = "";
+                nextLine = br.readLine(); // To skip the header
                 while (nextLine != null) {
                     try {
-                        nextLine = br.readLine();
-                        //line = br.readLine().split("\t");
                         line = nextLine.split("\t");
-                        if (previousID.equals(line[0])) {
-                            System.out.println("UN: "+line[0]);
+                        if (!previousID.equals(line[0])) {
                             Virus virusObject = new Virus(line[0], line[2], line[7], line[8]);
                             virusHM.put(Integer.valueOf(line[0]), virusObject);
                         }
-                        else{
-                            test += line[0];
-                        }
-                    }
-                    catch(AbstractMethodError e){     
-                    }
-                    /*
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("The virus with ID " + line[0] + " is incomplete; information missing.");
                     } catch (NullPointerException e) {
-                        System.out.println("Exception occurred");
+                        System.out.println("NullPointerException occurred");
                     }
-                    */
+                    nextLine = br.readLine();
                 }
-                System.out.println("TEST: "+test);
+                System.out.println("er: " + virusHM.get(762660).getSoort());
+                System.out.println("er: " + virusHM.get(762660).getId());
+                VirusGUI.buttonFind.setEnabled(true);
+                VirusGUI.labelFindButtonUnderscript.setVisible(false);
             } catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
+                VirusGUI.buttonFind.setEnabled(false);
+                VirusGUI.labelFindButtonUnderscript.setVisible(true);
             } catch (IOException e) {
                 System.out.println("IOException occurred");
+                VirusGUI.buttonFind.setEnabled(false);
+                VirusGUI.labelFindButtonUnderscript.setVisible(true);
             }
         }
     }
-    /*
-     public static void createObject(ArrayList<String> fileText){
-     for (String line : fileText){  
-     }
-     }*/
+    public static void Compare(){
+        
+    }
 }
