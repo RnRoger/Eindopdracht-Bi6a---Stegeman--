@@ -16,31 +16,48 @@ import java.util.HashMap;
  *
  * @author Rogier
  */
-
 public class VirusLogica {
-    
+
     //public static ArrayList<String> fileLines = new ArrayList<String>();
-    public static HashMap<Integer, Virus> virusHM = new HashMap<Integer, Virus>();  
-    
+    public static HashMap<Integer, Virus> virusHM = new HashMap<>();
+
     public static void openFile(String filename) {
         if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
 
         } else {
             try {
-                filename = System.getProperty("user.dir")+"\\src\\tentamenblok6\\"+filename;
-                System.out.println("f: "+filename);
+                filename = System.getProperty("user.dir") + "\\src\\tentamenblok6\\" + filename;
+                System.out.println("f: " + filename);
                 BufferedReader br = new BufferedReader(new FileReader(filename));
-                String line = br.readLine();
-                while (line != null) {
+                String nextLine = br.readLine();
+                System.out.println(nextLine);
+                String[] line;
+                String fullline = "";
+                String previousID = "";
+                String test = "";
+                while (nextLine != null) {
                     try {
-                        //fileLines.add(line);
-                        line = br.readLine();
-                        Virus virusObject = new Virus();
-                        virusHM.put(Integer.SIZE, virusObject);
+                        nextLine = br.readLine();
+                        //line = br.readLine().split("\t");
+                        line = nextLine.split("\t");
+                        if (previousID.equals(line[0])) {
+                            System.out.println("UN: "+line[0]);
+                            Virus virusObject = new Virus(line[0], line[2], line[7], line[8]);
+                            virusHM.put(Integer.valueOf(line[0]), virusObject);
+                        }
+                        else{
+                            test += line[0];
+                        }
+                    }
+                    catch(AbstractMethodError e){     
+                    }
+                    /*
                     } catch (NullPointerException e) {
                         System.out.println("Exception occurred");
                     }
+                    */
                 }
+                System.out.println("TEST: "+test);
             } catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
             } catch (IOException e) {
@@ -49,8 +66,8 @@ public class VirusLogica {
         }
     }
     /*
-    public static void createObject(ArrayList<String> fileText){
-        for (String line : fileText){  
-        }
-    }*/
+     public static void createObject(ArrayList<String> fileText){
+     for (String line : fileText){  
+     }
+     }*/
 }

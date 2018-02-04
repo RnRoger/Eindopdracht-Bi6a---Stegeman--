@@ -16,7 +16,15 @@ public class Virus {
     private int id;
     private String soort;
     private ArrayList<Integer> hostList = new ArrayList<>();
+    private ArrayList<String> hostNameList = new ArrayList<>();
     private String classificatie;
+    
+    Virus(String id, String soort, String hostID, String hostName){
+        this.id = Integer.valueOf(id);
+        this.soort = soort.split(";")[1].replace(" virusses", "");
+        this.hostList.add(Integer.valueOf(hostID));
+        this.hostNameList.add(hostName);
+    }
 
     /* Get the value of id
      * @return the value of id
