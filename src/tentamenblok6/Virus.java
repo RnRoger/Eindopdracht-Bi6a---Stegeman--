@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Rogier
  */
-public class Virus {
+public class Virus implements Comparable<Virus>{
     
     private int id;
     private String soort;
@@ -77,6 +77,20 @@ public class Virus {
         this.classificatie = classificatie;
     }
     
+    public void addHost(String hostID, String hostName){
+        this.hostList.add(Integer.valueOf(hostID));
+        this.hostNameList.add(hostName);
+        System.out.println("Virus updated!");
+    }
     
+    /**
+     * @param v
+     * @return an int of <0, 0 or >0
+     */
+    @Override
+    public int compareTo(Virus v) {
+        return -1*Integer.compare(this.hostList.size(), v.hostList.size());
+    }
+        
 
 }
