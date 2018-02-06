@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -23,7 +25,8 @@ public class VirusLogica {
 
     //public static ArrayList<String> fileLines = new ArrayList<String>();
     public static HashMap<Integer, Virus> virusHM = new HashMap<>();
-
+    public static ArrayList<String> uniqueHosts;
+    
     public static void openFile(String filename) {
         if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
 
@@ -42,6 +45,9 @@ public class VirusLogica {
                             Virus virusObject = new Virus(line[0], line[2], line[7], line[8]);
                             virusHM.put(Integer.valueOf(line[0]), virusObject);
                             previousID = line[0];
+                            if (!uniqueHosts.contains(line[7])){
+                                uniqueHosts.add(line[7]+"  ("+line[8]+")");
+                            }
                         } else {
                             virusHM.get(Integer.valueOf(line[0])).addHost(line[7], line[8]);
                         }
@@ -52,8 +58,8 @@ public class VirusLogica {
                     }
                     nextLine = br.readLine();
                 }
-                VirusGUI.buttonFind.setEnabled(true);
-                VirusGUI.labelFindButtonUnderscript.setVisible(false);
+                fillHostIDCombo();
+                VirusGUI.fileLoaded = true;
             } catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
                 VirusGUI.buttonFind.setEnabled(false);
@@ -70,11 +76,38 @@ public class VirusLogica {
         }
     }
 
-    public static void Compare() {
-        ArrayList<Virus> virusList = new ArrayList<Virus>(virusHM.values());
-        Collections.sort(virusList);
-        for (Virus str : virusList){
-            System.out.println("K: "+str.getId()+" - "+str.getHostList().size());
+    /**
+     * Adds all host ID's to the lists in the GUI
+     */
+    public static void fillHostIDCombo() {
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        /*for (Iterator<Virus> it = new ArrayList<>(virusHM.values()).iterator(); it.hasNext();) {
+            Virus currentVirus = it.next();
+            ArrayList<Integer> retrievedHosts = currentVirus.getHostList();
+            ArrayList<String> retrievedHostNames = currentVirus.getHostNameList();
+            System.out.println(retrievedHosts+""+retrievedHostNames);
+            for (int i = 0; i < retrievedHosts.size(); i++){
+                dlm.addElement(String.valueOf(retrievedHosts.get(i))+"  ("+retrievedHostNames.get(i)+")");
+            }
+            
         }
+        */
+        for (String uniqueHost : uniqueHosts){
+            dlm.addElement(uniqueHost);
+        }
+        VirusGUI.listHostID1.setModel(dlm);
+        VirusGUI.listHostID2.setModel(dlm);
+    }
+
+    public static void Compare(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
+        System.out.println("aaa" + viralClassificationState + hostIDState_1 + hostIDState_2);
+
+        /* SORTING
+         ArrayList<Virus> virusList = new ArrayList<Virus>(virusHM.values());
+         Collections.sort(virusList);
+         for (Virus str : virusList){
+         System.out.println("K: "+str.getId()+" - "+str.getHostList().size());
+         }
+         */
     }
 }
