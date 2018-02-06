@@ -8,13 +8,14 @@ package tentamenblok6;
 /**
  *
  * @author Rogier
+ *
  */
 public class VirusGUI extends javax.swing.JFrame {
 
     public static boolean fileLoaded = false;
     private static String req1;
-    String req2;
-    String req3;
+    private static String req2;
+    private static String req3;
 
     /**
      * Creates new form VirusGUI
@@ -103,7 +104,7 @@ public class VirusGUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setText("Host ID's:");
 
-        comboHostID2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        comboHostID2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboHostID2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none" }));
         comboHostID2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboHostID2.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +113,7 @@ public class VirusGUI extends javax.swing.JFrame {
             }
         });
 
-        comboHostID1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        comboHostID1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboHostID1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none" }));
         comboHostID1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboHostID1.addActionListener(new java.awt.event.ActionListener() {
@@ -169,10 +170,11 @@ public class VirusGUI extends javax.swing.JFrame {
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         listHostID1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        listHostID1.setFixedCellWidth(39);
         jScrollPane1.setViewportView(listHostID1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -180,10 +182,11 @@ public class VirusGUI extends javax.swing.JFrame {
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         listHostID2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        listHostID2.setFixedCellWidth(39);
         jScrollPane2.setViewportView(listHostID2);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -191,7 +194,7 @@ public class VirusGUI extends javax.swing.JFrame {
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jList3.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -233,6 +236,13 @@ public class VirusGUI extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -240,32 +250,25 @@ public class VirusGUI extends javax.swing.JFrame {
                                 .addGap(34, 34, 34)
                                 .addComponent(comboViralClassification, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(140, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
-                            .addComponent(buttonFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(labelFindButtonUnderscript)))
-                        .addGap(88, 88, 88)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(comboHostID1, 0, 245, Short.MAX_VALUE))
-                        .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane2)
-                            .addComponent(comboHostID2, 0, 245, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(buttonFind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(19, 19, 19)
+                                        .addComponent(labelFindButtonUnderscript)))
+                                .addGap(88, 88, 88)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(comboHostID1, 0, 245, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1))
+                                .addGap(66, 66, 66)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(comboHostID2, 0, 245, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -283,14 +286,13 @@ public class VirusGUI extends javax.swing.JFrame {
                     .addComponent(comboViralClassification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboHostID2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(comboHostID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(comboHostID1)
+                    .addComponent(comboHostID2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,13 +302,13 @@ public class VirusGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(23, 23, 23)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(buttonFind, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -321,23 +323,28 @@ public class VirusGUI extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         VirusLogica.openFile(jTextField1.getText());
         updateSearchButton();
+        VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         VirusLogica.openFile(jTextField1.getText());
         updateSearchButton();
+        VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void comboViralClassificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViralClassificationActionPerformed
         updateSearchButton();
+        VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboViralClassificationActionPerformed
 
     private void comboHostID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHostID2ActionPerformed
         updateSearchButton();
+        VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboHostID2ActionPerformed
 
     private void comboHostID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHostID1ActionPerformed
         updateSearchButton();
+        VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboHostID1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -353,7 +360,7 @@ public class VirusGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void buttonFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindActionPerformed
-        VirusLogica.Compare(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
+        
     }//GEN-LAST:event_buttonFindActionPerformed
 
     /**
@@ -396,8 +403,7 @@ public class VirusGUI extends javax.swing.JFrame {
         req2 = comboHostID1.getSelectedItem().toString();
         req3 = comboHostID2.getSelectedItem().toString();
         
-        //Author: I managed to get this one right in one try without testing :)
-        if (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && req3.equals("none"))) {
+        if (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none"))) {
             VirusGUI.buttonFind.setEnabled(true);
             VirusGUI.labelFindButtonUnderscript.setVisible(false);
         } else {
@@ -409,8 +415,8 @@ public class VirusGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton buttonFind;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox comboHostID1;
-    private javax.swing.JComboBox comboHostID2;
+    public static javax.swing.JComboBox comboHostID1;
+    public static javax.swing.JComboBox comboHostID2;
     private javax.swing.JComboBox comboViralClassification;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

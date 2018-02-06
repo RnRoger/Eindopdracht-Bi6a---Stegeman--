@@ -14,14 +14,16 @@ import java.util.ArrayList;
 public class Virus implements Comparable<Virus>{
     
     private int id;
+    private String name;
     private String soort;
     private ArrayList<Integer> hostList = new ArrayList<>();
     private ArrayList<String> hostNameList = new ArrayList<>();
     private String classificatie;
     
-    Virus(String id, String soort, String hostID, String hostName){
+    Virus(String id, String name, String soort, String hostID, String hostName){
         System.out.println("id: "+id);
         this.id = Integer.valueOf(id);
+        this.name = name;
         this.soort = soort.split(";")[1].replace(" virusses", "");
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
@@ -47,6 +49,14 @@ public class Virus implements Comparable<Virus>{
     // Other getters and setters
     public String getSoort() {
         return soort;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSoort(String soort) {
@@ -92,5 +102,11 @@ public class Virus implements Comparable<Virus>{
         return -1*Integer.compare(this.hostList.size(), v.hostList.size());
     }
         
-
+    public boolean SortVirusListCheckClassification(String viralClassificationState){
+        if ()
+    }
+    
+    public boolean SortVirusListCheckHostIDState(String hostIDState){
+    
+    }
 }
