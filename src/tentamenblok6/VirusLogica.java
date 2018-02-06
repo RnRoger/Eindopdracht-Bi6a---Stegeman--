@@ -52,8 +52,6 @@ public class VirusLogica {
                     }
                     nextLine = br.readLine();
                 }
-                System.out.println("er: " + virusHM.get(762660).getSoort());
-                System.out.println("er: " + virusHM.get(762660).getId());
                 VirusGUI.buttonFind.setEnabled(true);
                 VirusGUI.labelFindButtonUnderscript.setVisible(false);
             } catch (FileNotFoundException e) {
