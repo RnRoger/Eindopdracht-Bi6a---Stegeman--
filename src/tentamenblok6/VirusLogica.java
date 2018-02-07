@@ -12,9 +12,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -30,12 +34,15 @@ public class VirusLogica {
     public static ArrayList<String> uniqueHostIDs = new ArrayList<>();
     private static DefaultListModel<String> dlm = new DefaultListModel<>();
     private static DefaultListModel<String> replicatesListModel = new DefaultListModel<>();
+    public static ArrayList<Virus> dlmListCheck1 = new ArrayList<>();
+    public static ArrayList<Virus> dlmListCheck2 = new ArrayList<>();
     private static DefaultListModel<String> dlmChecked1 = new DefaultListModel<>();
     private static DefaultListModel<String> dlmChecked2 = new DefaultListModel<>();
     public static ArrayList<Integer> dlmList = new ArrayList<>();
     public static ArrayList<Object> extractedViruses = new ArrayList<>();
     public static ArrayList<Object> extractedVirusesDump = new ArrayList<>();
     private static ListModel extractedListModel;
+    public static int sortCase = 0;
 
     public static void openFile(String filename) {
         try {
@@ -113,14 +120,15 @@ public class VirusLogica {
         VirusGUI.listVirusID1.setModel(dlm);
         VirusGUI.listVirusID2.setModel(dlm);
     }
-/*
-    public static ArrayList<Integer> SortVirusIDList(ArrayList<Integer> VirusList){
-        for (int virusID : dlmList) {
-            Virus currentVirus = virusHM.get(virusID);
-        }
-        return;
-    }
-  */  
+    /*
+     public static ArrayList<Integer> SortVirusIDList(ArrayList<Integer> VirusList){
+     for (int virusID : dlmList) {
+     Virus currentVirus = virusHM.get(virusID);
+     }
+     return;
+     }
+     */
+
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
         dlmChecked1.clear();
         dlmChecked2.clear();
@@ -134,6 +142,22 @@ public class VirusLogica {
                 SortVirusListsLogic(currentVirus, hostIDState_1, hostIDState_2);
             }
         }
+        //Harcode because getting the selected radiobutton from a group, which OBVIOUSLY is the main purpose of a radiobuttongroup, IS HARD AS HELL.
+        if (VirusGUI.jRadioButton1.isSelected()) {
+            sortCase = 0;
+        } else if (VirusGUI.jRadioButton2.isSelected()) {
+            sortCase = 1;
+        } else {
+            sortCase = 2;
+        }
+        Collections.sort(dlmListCheck1);
+        Collections.sort(dlmListCheck2);
+        for (Virus currentVirus : dlmListCheck1) {
+            dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+        }
+        for (Virus currentVirus : dlmListCheck2) {
+            dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+        }
         
         VirusGUI.listVirusID1.setModel(dlmChecked1);
         VirusGUI.listVirusID2.setModel(dlmChecked2);
@@ -142,17 +166,21 @@ public class VirusLogica {
     private static void SortVirusListsLogic(Virus currentVirus, String hostIDState_1, String hostIDState_2) {
         if (!hostIDState_1.equals("none")) {
             if (currentVirus.getHostList().contains(Integer.parseInt(uniqueHostIDs.get(uniqueHosts.indexOf(hostIDState_1))))) {
-                dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+                dlmListCheck1.add(currentVirus);
+                //dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
             }
         } else {
-            dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+            dlmListCheck1.add(currentVirus);
+            //dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
         }
         if (!hostIDState_2.equals("none")) {
             if (currentVirus.getHostList().contains(Integer.parseInt(uniqueHostIDs.get(uniqueHosts.indexOf(hostIDState_2))))) {
-                dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+                dlmListCheck2.add(currentVirus);
+                //dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
             }
         } else {
-            dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+            dlmListCheck2.add(currentVirus);
+            //dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
         }
     }
 

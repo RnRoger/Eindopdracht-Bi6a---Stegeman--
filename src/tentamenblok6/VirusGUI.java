@@ -13,9 +13,6 @@ package tentamenblok6;
 public class VirusGUI extends javax.swing.JFrame {
 
     public static boolean fileLoaded = false;
-    private static String req1;
-    private static String req2;
-    private static String req3;
 
     /**
      * Creates new form VirusGUI
@@ -33,7 +30,7 @@ public class VirusGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttongroupSortChoice = new javax.swing.ButtonGroup();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -125,15 +122,15 @@ public class VirusGUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
 
-        buttonGroup1.add(jRadioButton3);
+        buttongroupSortChoice.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton3.setText("Number of hosts");
 
-        buttonGroup1.add(jRadioButton2);
+        buttongroupSortChoice.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton2.setText("Classification");
 
-        buttonGroup1.add(jRadioButton1);
+        buttongroupSortChoice.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("ID");
@@ -398,9 +395,6 @@ public class VirusGUI extends javax.swing.JFrame {
     }
 
     public void updateSearchButton() {
-        req1 = comboViralClassification.getSelectedItem().toString();
-        req2 = comboHostID1.getSelectedItem().toString();
-        req3 = comboHostID2.getSelectedItem().toString();
         // Old logic which was too beautiful to throw away:
         // (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none")))
         if (fileLoaded) {
@@ -414,7 +408,7 @@ public class VirusGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton buttonFind;
-    private javax.swing.ButtonGroup buttonGroup1;
+    public static javax.swing.ButtonGroup buttongroupSortChoice;
     public static javax.swing.JComboBox comboHostID1;
     public static javax.swing.JComboBox comboHostID2;
     private javax.swing.JComboBox comboViralClassification;
@@ -426,9 +420,9 @@ public class VirusGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
+    public static javax.swing.JRadioButton jRadioButton1;
+    public static javax.swing.JRadioButton jRadioButton2;
+    public static javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

@@ -90,8 +90,17 @@ public class Virus implements Comparable<Virus>{
      */
     @Override
     public int compareTo(Virus v) {
-        System.out.println("OI");
-        return -1*Integer.compare(this.hostList.size(), v.hostList.size());
+        switch (VirusLogica.sortCase){
+            case 0 :
+                return Integer.compare(this.id,v.getId());
+            case 1 :
+                return this.classificatie.compareTo(v.classificatie);
+            case 2 :
+                return -1*Integer.compare(this.hostList.size(), v.hostList.size());
+            default:
+                return -1;
+        }
+        
     }
         
     public boolean SortVirusListCheckClassification(String viralClassificationState){
