@@ -201,13 +201,13 @@ public class VirusGUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(listReplicateViruses);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel4.setText("File or URL:");
+        jLabel4.setText(" ");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel5.setText("Replicate virusses:");
+        jLabel5.setText(" ");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel6.setText("Host 1 virusses:");
+        jLabel6.setText("   ");
 
         jTextField2.setText("virushostdb.tsv");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -237,7 +237,7 @@ public class VirusGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -396,11 +396,13 @@ public class VirusGUI extends javax.swing.JFrame {
     }
 
     public void updateSearchButton() {
+        /* Old logic which was too beautiful to throw away:
         req1 = comboViralClassification.getSelectedItem().toString();
         req2 = comboHostID1.getSelectedItem().toString();
         req3 = comboHostID2.getSelectedItem().toString();
-        // Old logic which was too beautiful to throw away:
-        // (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none")))
+        
+        (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none")))
+        */
         if (fileLoaded) {
             VirusGUI.buttonFind.setEnabled(true);
             VirusGUI.labelFindButtonUnderscript.setVisible(false);
@@ -415,7 +417,7 @@ public class VirusGUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     public static javax.swing.JComboBox comboHostID1;
     public static javax.swing.JComboBox comboHostID2;
-    private javax.swing.JComboBox comboViralClassification;
+    public static javax.swing.JComboBox comboViralClassification;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

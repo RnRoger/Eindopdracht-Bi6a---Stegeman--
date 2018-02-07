@@ -56,11 +56,13 @@ public class VirusLogica {
                             Virus virusObject = new Virus(line[0], line[1], line[2], line[7], line[8]);
                             virusHM.put(Integer.valueOf(line[0]), virusObject);
                             previousID = line[0];
+                            /*
                             if (!uniqueHosts.contains(line[7] + "  (" + line[8] + ")")) {
                                 uniqueHosts.add(line[7] + "  (" + line[8] + ")");
                                 uniqueHostIDs.add(line[7]);
                                 System.out.println("asdsadsa" + line[7] + "\n" + Integer.parseInt(line[7]));
                             }
+                             */
                         } else {
                             virusHM.get(Integer.valueOf(line[0])).addHost(line[7], line[8]);
                         }
@@ -71,12 +73,15 @@ public class VirusLogica {
                     }
                     nextLine = br.readLine();
                 }
+                /*
                 Collections.sort(uniqueHosts);
                 Collections.sort(uniqueHostIDs);
                 uniqueHosts.remove(0);
                 uniqueHostIDs.remove(0);
-                FillHostIDCombo();
+                 */
                 FillVirusLists();
+                FillHostIDCombo();
+
                 VirusGUI.fileLoaded = true;
             } catch (FileNotFoundException e) {
                 System.out.println("The file was not found");
@@ -98,10 +103,58 @@ public class VirusLogica {
      * Adds all host ID's to the combo boxes in the GUI
      */
     public static void FillHostIDCombo() {
+        uniqueHosts.clear();
+        uniqueHostIDs.clear();
+        VirusGUI.comboHostID1.removeAllItems();
+        VirusGUI.comboHostID2.removeAllItems();
+        System.out.println("clear?: " + VirusGUI.comboHostID1.getItemCount());
+        buildUniqueHosts();
+        System.out.println("fill");
         for (String uniqueHost : uniqueHosts) {
             VirusGUI.comboHostID1.addItem(uniqueHost);
             VirusGUI.comboHostID2.addItem(uniqueHost);
         }
+        VirusGUI.comboHostID1.setSelectedIndex(0);
+        VirusGUI.comboHostID2.setSelectedIndex(0);
+    }
+
+    public static void buildUniqueHosts() {
+        System.out.println("A" + dlmList.toString());
+        for (int virusID : dlmList) {
+            Virus currentVirus = virusHM.get(virusID);
+            if (!VirusGUI.comboViralClassification.getSelectedItem().toString().equals("none")) {
+                if (currentVirus.SortVirusListCheckClassification(VirusGUI.comboViralClassification.getSelectedItem().toString())) {
+                    System.out.println("im[p: " + VirusGUI.comboViralClassification.getSelectedItem().toString());
+                    for (int i = 0; i < currentVirus.getHostList().size(); i++) {
+                        Integer uniID = currentVirus.getHostList().get(i);
+                        String uniName = currentVirus.getHostNameList().get(i);
+                        if (!uniqueHosts.contains(uniID + "  (" + uniName + ")")) {
+                            uniqueHosts.add(uniID + "  (" + uniName + ")");
+                            uniqueHostIDs.add(String.valueOf(uniID));
+                            System.out.println("not none" + uniID);
+                        }
+                    }
+                }
+            } else {
+                System.out.println("OPb");
+                for (int i = 0; i < currentVirus.getHostList().size(); i++) {
+                    Integer uniID = currentVirus.getHostList().get(i);
+                    String uniName = currentVirus.getHostNameList().get(i);
+                    System.out.println("OPc");
+                    if (!uniqueHosts.contains(uniID + "  (" + uniName + ")")) {
+                        System.out.println("OPd");
+                        uniqueHosts.add(uniID + "  (" + uniName + ")");
+                        uniqueHostIDs.add(String.valueOf(uniID));
+                        System.out.println("none" + uniID);
+                    }
+                }
+            }
+        }
+        System.out.println("BAH");
+        Collections.sort(uniqueHosts);
+        Collections.sort(uniqueHostIDs);
+        uniqueHosts.remove(0);
+        uniqueHostIDs.remove(0);
     }
 
     /**
@@ -117,6 +170,7 @@ public class VirusLogica {
     }
 
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
+        FillHostIDCombo(); //REMOVE?
         dlmChecked1.clear();
         dlmChecked2.clear();
         for (int virusID : dlmList) {
@@ -162,8 +216,8 @@ public class VirusLogica {
         for (int i = 0; i < extractedListModel.getSize(); i++) {
             extractedViruses.add(extractedListModel.getElementAt(i));
         }
-        for (Object vir : extractedViruses){
-            if (extractedVirusesDump.contains(vir)){
+        for (Object vir : extractedViruses) {
+            if (extractedVirusesDump.contains(vir)) {
                 replicatesListModel.addElement(vir.toString());
             } else {
                 extractedVirusesDump.add(vir);

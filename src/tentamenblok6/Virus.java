@@ -20,13 +20,13 @@ public class Virus implements Comparable<Virus>{
     private ArrayList<String> hostNameList = new ArrayList<>();
     
     Virus(String id, String name, String soort, String hostID, String hostName){
-        System.out.println("id: "+id);
+        //System.out.println("id: "+id);
         this.id = Integer.valueOf(id);
         this.soort = name;
         this.classificatie = soort.split(";")[1].replace(" virusses", "");
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
-        System.out.println("VIRUS CREATED");
+        //System.out.println("VIRUS CREATED");
     }
 
     /* Get the value of id
@@ -81,7 +81,7 @@ public class Virus implements Comparable<Virus>{
     public void addHost(String hostID, String hostName){
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
-        System.out.println("Virus updated!");
+        //System.out.println("Virus updated!");
     }
     
     /**
