@@ -1,24 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package tentamenblok6;
-
+//import
 import java.util.ArrayList;
 
 /**
- *
+ * Virus is the Object model for the Virus objects.
+ * It contains several attributes which define a certain virus
  * @author Rogier
  */
 public class Virus implements Comparable<Virus>{
-    
+    //Variables declaration
     private int id;
     private String soort;
     private String classificatie;
     private ArrayList<Integer> hostList = new ArrayList<>();
     private ArrayList<String> hostNameList = new ArrayList<>();
+    //End of variables declaration
     
+    /**
+     * Constructor for Virus
+     * @param id        The virus ID
+     * @param name      The virus name
+     * @param soort     The virus classifications
+     * @param hostID    The host's ID
+     * @param hostName  The host's name
+     */
     Virus(String id, String name, String soort, String hostID, String hostName){
         System.out.println("id: "+id);
         this.id = Integer.valueOf(id);
@@ -26,7 +32,6 @@ public class Virus implements Comparable<Virus>{
         this.classificatie = soort.split(";")[1].replace(" virusses", "");
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
-        System.out.println("VIRUS CREATED");
     }
 
     /* Get the value of id
@@ -78,15 +83,21 @@ public class Virus implements Comparable<Virus>{
         this.classificatie = classificatie;
     }
     
+    /**
+     * Used to add another host's ID and name to an already existing Virus.
+     * @param hostID    The host ID
+     * @param hostName  The host Name
+     */
     public void addHost(String hostID, String hostName){
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
-        System.out.println("Virus updated!");
     }
     
     /**
-     * @param v
-     * @return an int of <0, 0 or >0
+     * The implementation of comparable. This method allows for comparing between viruses
+     * which are user defined objects and therefore have no standard way to be compared.
+     * @param v The virus object that will be compared to this object
+     * @return an integer of <0, 0 or >0
      */
     @Override
     public int compareTo(Virus v) {
@@ -94,14 +105,23 @@ public class Virus implements Comparable<Virus>{
         return -1*Integer.compare(this.hostList.size(), v.hostList.size());
     }
         
+    /**
+     * Used to check if the user selected viral classification is present in this virus.
+     * @param viralClassificationState The selected classification from the combo box in the GUI
+     * @return true or false; true if the viralClassificationState is present in this virus' classification list
+     *                        false if not.
+     */
     public boolean SortVirusListCheckClassification(String viralClassificationState){
         return classificatie.toLowerCase().contains(viralClassificationState.toLowerCase());
     }
     
+    /**
+     * Checks whether the host ID from the combo box in the GUI is present in this virus
+     * @param hostIDState   Selected host ID from the combo box
+     * @return true or false; true if the hostIDState is present in this virus' host ID list
+     *                        false if not.
+     */
     public boolean SortVirusListCheckHostIDState(int hostIDState){
-        System.out.println("check if "+hostIDState+"is in "+hostList.toString()+" aka "+hostNameList.toString());
-        System.out.println(hostList.contains(hostIDState));
-        System.out.println("k: "+hostIDState);
         return hostList.contains(hostIDState);
     }
 }

@@ -1,30 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package tentamenblok6;
 
+//imports
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
+//End of imports
 
 /**
- *
+ * VirusLogica is responsible for most of the operations of the application.
+ * The methods, or chains of methods are usually activated by user input from the GUI.
+ * Action events from the GUI call methods from the VirusLogica class.
+ * The class handles file opening, filling combo boxes and lists, sorting and creating the hashmap of viruses.
+ *  
+ * 
  * @author Rogier
+ * @version %I%, %G%
  */
 public class VirusLogica {
 
-    //public static ArrayList<String> fileLines = new ArrayList<String>();
+    //Variables declaration
     public static HashMap<Integer, Virus> virusHM = new HashMap<>();
     public static ArrayList<String> uniqueHosts = new ArrayList<>();
     public static ArrayList<String> uniqueHostIDs = new ArrayList<>();
@@ -36,7 +38,13 @@ public class VirusLogica {
     public static ArrayList<Object> extractedViruses = new ArrayList<>();
     public static ArrayList<Object> extractedVirusesDump = new ArrayList<>();
     private static ListModel extractedListModel;
-
+    //End of variables declaration
+    
+    /**
+     * With the input of a filename, the openFile() method opens the file.
+     * A BufferedReader is used to do this.
+     * @param filename      Name of the file
+     */
     public static void openFile(String filename) {
         try {
             //Had some issues with file location, so getting the project's root and navigating to the package file
@@ -92,7 +100,8 @@ public class VirusLogica {
     }
 
     /**
-     * Adds all host ID's to the combo boxes in the GUI
+     * FillHostIDCombo() Adds all host ID's to the combo boxes in the GUI
+     * @see host ID's in the GUI's combo boxes for host ID's
      */
     public static void FillHostIDCombo() {
         for (String uniqueHost : uniqueHosts) {
@@ -103,24 +112,25 @@ public class VirusLogica {
 
     /**
      * Adds all the virus id's to the lists in the GUI
+     * The method is called after a file is opened.
+     * @see All virus ID's from the file in the virus ID lists in the GUI
      */
     public static void FillVirusLists() {
         for (Map.Entry<Integer, Virus> entry : virusHM.entrySet()) {
             dlmList.add(entry.getKey());
             dlm.addElement(String.valueOf(entry.getKey()) + "  (" + entry.getValue().getSoort() + ")");
         }
-        //ArrayList<Integer> sortedVirusIDList = SortVirusIDList(dlmList);
         VirusGUI.listVirusID1.setModel(dlm);
         VirusGUI.listVirusID2.setModel(dlm);
     }
-/*
-    public static ArrayList<Integer> SortVirusIDList(ArrayList<Integer> VirusList){
-        for (int virusID : dlmList) {
-            Virus currentVirus = virusHM.get(virusID);
-        }
-        return;
-    }
-  */  
+ 
+    /**
+     * removes all the virus ID's that are not of the selected host and virus classification.
+     * @param viralClassificationState  Selected virus classification from the combo box
+     * @param hostIDState_1             Selected host ID from the combo box
+     * @param hostIDState_2             Selected host ID from the combo box
+     * @see updated virus lists
+     */
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
         dlmChecked1.clear();
         dlmChecked2.clear();
@@ -138,7 +148,14 @@ public class VirusLogica {
         VirusGUI.listVirusID1.setModel(dlmChecked1);
         VirusGUI.listVirusID2.setModel(dlmChecked2);
     }
-
+    
+    /**
+     * Part of the logic needed in the SortVirusLists() class.
+     * Isolated here to improve readability and avoid multiple copies of the same lines of code
+     * @param viralClassificationState  Selected virus classification from the combo box
+     * @param hostIDState_1             Selected host ID from the combo box
+     * @param hostIDState_2             Selected host ID from the combo box
+     */
     private static void SortVirusListsLogic(Virus currentVirus, String hostIDState_1, String hostIDState_2) {
         if (!hostIDState_1.equals("none")) {
             if (currentVirus.getHostList().contains(Integer.parseInt(uniqueHostIDs.get(uniqueHosts.indexOf(hostIDState_1))))) {
@@ -156,6 +173,10 @@ public class VirusLogica {
         }
     }
 
+    /**
+     * Checks both virus lists and finds duplicates/replicates.
+     * @see virus ID's in the replicate viruses list.
+     */
     public static void Compare() {
         extractedListModel = VirusGUI.listVirusID1.getModel();
         extractedVirusesDump.clear();
