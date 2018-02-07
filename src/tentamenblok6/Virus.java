@@ -90,6 +90,7 @@ public class Virus implements Comparable<Virus>{
      */
     @Override
     public int compareTo(Virus v) {
+        System.out.println("OI");
         return -1*Integer.compare(this.hostList.size(), v.hostList.size());
     }
         

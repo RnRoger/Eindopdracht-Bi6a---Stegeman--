@@ -9,13 +9,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -39,59 +38,57 @@ public class VirusLogica {
     private static ListModel extractedListModel;
 
     public static void openFile(String filename) {
-        if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
-
-        } else {
-            try {
-                filename = System.getProperty("user.dir") + "\\src\\tentamenblok6\\" + filename;
-                BufferedReader br = new BufferedReader(new FileReader(filename));
-                String nextLine = br.readLine();
-                String[] line = {};
-                String previousID = "";
-                nextLine = br.readLine(); // To skip the header
-                while (nextLine != null) {
-                    try {
-                        line = nextLine.split("\t");
-                        if (!previousID.equals(line[0])) {
-                            Virus virusObject = new Virus(line[0], line[1], line[2], line[7], line[8]);
-                            virusHM.put(Integer.valueOf(line[0]), virusObject);
-                            previousID = line[0];
-                            if (!uniqueHosts.contains(line[7] + "  (" + line[8] + ")")) {
-                                uniqueHosts.add(line[7] + "  (" + line[8] + ")");
-                                uniqueHostIDs.add(line[7]);
-                                System.out.println("asdsadsa" + line[7] + "\n" + Integer.parseInt(line[7]));
-                            }
-                        } else {
-                            virusHM.get(Integer.valueOf(line[0])).addHost(line[7], line[8]);
+        try {
+            //Had some issues with file location, so getting the project's root and navigating to the package file
+            filename = System.getProperty("user.dir") + "\\src\\tentamenblok6\\" + filename;
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            String nextLine = br.readLine();
+            String[] line = {};
+            String previousID = "";
+            nextLine = br.readLine(); // To skip the header
+            while (nextLine != null) {
+                try {
+                    line = nextLine.split("\t");
+                    if (!previousID.equals(line[0])) {
+                        Virus virusObject = new Virus(line[0], line[1], line[2], line[7], line[8]);
+                        virusHM.put(Integer.valueOf(line[0]), virusObject);
+                        previousID = line[0];
+                        if (!uniqueHosts.contains(line[7] + "  (" + line[8] + ")")) {
+                            uniqueHosts.add(line[7] + "  (" + line[8] + ")");
+                            uniqueHostIDs.add(line[7]);
+                            System.out.println("asdsadsa" + line[7] + "\n" + Integer.parseInt(line[7]));
                         }
-                    } catch (IndexOutOfBoundsException e) {
-                        System.out.println("The virus with ID " + line[0] + " is incomplete; information missing.");
-                    } catch (NullPointerException e) {
-                        System.out.println("NullPointerException occurred");
+                    } else {
+                        virusHM.get(Integer.valueOf(line[0])).addHost(line[7], line[8]);
                     }
-                    nextLine = br.readLine();
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("The virus with ID " + line[0] + " is incomplete; information missing.");
+                } catch (NullPointerException e) {
+                    System.out.println("NullPointerException occurred");
                 }
-                Collections.sort(uniqueHosts);
-                Collections.sort(uniqueHostIDs);
-                uniqueHosts.remove(0);
-                uniqueHostIDs.remove(0);
-                FillHostIDCombo();
-                FillVirusLists();
-                VirusGUI.fileLoaded = true;
-            } catch (FileNotFoundException e) {
-                System.out.println("The file was not found");
-                VirusGUI.buttonFind.setEnabled(false);
-                VirusGUI.labelFindButtonUnderscript.setVisible(true);
-            } catch (IOException e) {
-                System.out.println("IOException occurred");
-                VirusGUI.buttonFind.setEnabled(false);
-                VirusGUI.labelFindButtonUnderscript.setVisible(true);
-            } catch (NumberFormatException e) {
-                System.out.println("A NumberFormatException has been found " + e.getMessage());
-            } catch (NullPointerException e) {
-                System.out.println("A NumberFormatException has occurred, please check the data of your file.\nNote that the file must contain at least 2 lines.");
+                nextLine = br.readLine();
             }
+            Collections.sort(uniqueHosts);
+            Collections.sort(uniqueHostIDs);
+            uniqueHosts.remove(0);
+            uniqueHostIDs.remove(0);
+            FillHostIDCombo();
+            FillVirusLists();
+            VirusGUI.fileLoaded = true;
+        } catch (FileNotFoundException e) {
+            System.out.println("The file was not found");
+            VirusGUI.buttonFind.setEnabled(false);
+            VirusGUI.labelFindButtonUnderscript.setVisible(true);
+        } catch (IOException e) {
+            System.out.println("IOException occurred");
+            VirusGUI.buttonFind.setEnabled(false);
+            VirusGUI.labelFindButtonUnderscript.setVisible(true);
+        } catch (NumberFormatException e) {
+            System.out.println("A NumberFormatException has been found " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("A NumberFormatException has occurred, please check the data of your file.\nNote that the file must contain at least 2 lines.");
         }
+
     }
 
     /**
@@ -112,10 +109,18 @@ public class VirusLogica {
             dlmList.add(entry.getKey());
             dlm.addElement(String.valueOf(entry.getKey()) + "  (" + entry.getValue().getSoort() + ")");
         }
+        //ArrayList<Integer> sortedVirusIDList = SortVirusIDList(dlmList);
         VirusGUI.listVirusID1.setModel(dlm);
         VirusGUI.listVirusID2.setModel(dlm);
     }
-
+/*
+    public static ArrayList<Integer> SortVirusIDList(ArrayList<Integer> VirusList){
+        for (int virusID : dlmList) {
+            Virus currentVirus = virusHM.get(virusID);
+        }
+        return;
+    }
+  */  
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
         dlmChecked1.clear();
         dlmChecked2.clear();
@@ -129,6 +134,7 @@ public class VirusLogica {
                 SortVirusListsLogic(currentVirus, hostIDState_1, hostIDState_2);
             }
         }
+        
         VirusGUI.listVirusID1.setModel(dlmChecked1);
         VirusGUI.listVirusID2.setModel(dlmChecked2);
     }
@@ -162,8 +168,8 @@ public class VirusLogica {
         for (int i = 0; i < extractedListModel.getSize(); i++) {
             extractedViruses.add(extractedListModel.getElementAt(i));
         }
-        for (Object vir : extractedViruses){
-            if (extractedVirusesDump.contains(vir)){
+        for (Object vir : extractedViruses) {
+            if (extractedVirusesDump.contains(vir)) {
                 replicatesListModel.addElement(vir.toString());
             } else {
                 extractedVirusesDump.add(vir);

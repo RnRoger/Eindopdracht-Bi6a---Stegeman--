@@ -65,7 +65,7 @@ public class VirusGUI extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 2, 24)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(175, 175, 175));
-        jTextField1.setText("Enter a file name or URL");
+        jTextField1.setText("Enter a file name");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -125,9 +125,11 @@ public class VirusGUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
 
+        buttonGroup1.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton3.setText("Number of hosts");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton2.setText("Classification");
 
