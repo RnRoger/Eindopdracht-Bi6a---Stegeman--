@@ -14,17 +14,16 @@ import java.util.ArrayList;
 public class Virus implements Comparable<Virus>{
     
     private int id;
-    private String name;
     private String soort;
+    private String classificatie;
     private ArrayList<Integer> hostList = new ArrayList<>();
     private ArrayList<String> hostNameList = new ArrayList<>();
-    private String classificatie;
     
     Virus(String id, String name, String soort, String hostID, String hostName){
         System.out.println("id: "+id);
         this.id = Integer.valueOf(id);
-        this.name = name;
-        this.soort = soort.split(";")[1].replace(" virusses", "");
+        this.soort = name;
+        this.classificatie = soort.split(";")[1].replace(" virusses", "");
         this.hostList.add(Integer.valueOf(hostID));
         this.hostNameList.add(hostName);
         System.out.println("VIRUS CREATED");
@@ -49,14 +48,6 @@ public class Virus implements Comparable<Virus>{
     // Other getters and setters
     public String getSoort() {
         return soort;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setSoort(String soort) {
@@ -103,10 +94,13 @@ public class Virus implements Comparable<Virus>{
     }
         
     public boolean SortVirusListCheckClassification(String viralClassificationState){
-        if ()
+        return classificatie.toLowerCase().contains(viralClassificationState.toLowerCase());
     }
     
-    public boolean SortVirusListCheckHostIDState(String hostIDState){
-    
+    public boolean SortVirusListCheckHostIDState(int hostIDState){
+        System.out.println("check if "+hostIDState+"is in "+hostList.toString()+" aka "+hostNameList.toString());
+        System.out.println(hostList.contains(hostIDState));
+        System.out.println("k: "+hostIDState);
+        return hostList.contains(hostIDState);
     }
 }

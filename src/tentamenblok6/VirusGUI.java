@@ -84,7 +84,7 @@ public class VirusGUI extends javax.swing.JFrame {
         jLabel2.setText("Viral Classification:");
 
         comboViralClassification.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        comboViralClassification.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "dsDNA", "ssDNA", "dsRNA", "ssRNA", "Retrovirus", "Sattelite/Virophage", "Viroid" }));
+        comboViralClassification.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "dsDNA", "ssDNA", "dsRNA", "ssRNA", "Retro-transcribing viruses", "Satellite", "Virophage", "Viroid" }));
         comboViralClassification.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboViralClassification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

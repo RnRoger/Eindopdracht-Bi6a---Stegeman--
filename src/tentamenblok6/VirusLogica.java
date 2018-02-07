@@ -27,12 +27,12 @@ public class VirusLogica {
     //public static ArrayList<String> fileLines = new ArrayList<String>();
     public static HashMap<Integer, Virus> virusHM = new HashMap<>();
     public static ArrayList<String> uniqueHosts = new ArrayList<>();
+    public static ArrayList<String> uniqueHostIDs = new ArrayList<>();
     private static DefaultListModel<String> dlm = new DefaultListModel<>();
     private static DefaultListModel<String> dlmChecked1 = new DefaultListModel<>();
     private static DefaultListModel<String> dlmChecked2 = new DefaultListModel<>();
+    private static DefaultListModel<String> dlmCheckHalfway = new DefaultListModel<>();
     public static ArrayList<Integer> dlmList = new ArrayList<>();
-    boolean checkResult1;
-    boolean checkResult2;
 
     public static void openFile(String filename) {
         if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
@@ -54,6 +54,7 @@ public class VirusLogica {
                             previousID = line[0];
                             if (!uniqueHosts.contains(line[7] + "  (" + line[8] + ")")) {
                                 uniqueHosts.add(line[7] + "  (" + line[8] + ")");
+                                uniqueHostIDs.add(line[7]);
                             }
                         } else {
                             virusHM.get(Integer.valueOf(line[0])).addHost(line[7], line[8]);
@@ -121,27 +122,85 @@ public class VirusLogica {
     public static void FillVirusLists() {
         for (Map.Entry<Integer, Virus> entry : virusHM.entrySet()) {
             dlmList.add(entry.getKey());
-            dlm.addElement(String.valueOf(entry.getKey()) + "  (" + entry.getValue().getName() + ")");
+            dlm.addElement(String.valueOf(entry.getKey()) + "  (" + entry.getValue().getSoort() + ")");
         }
         VirusGUI.listHostID1.setModel(dlm);
         VirusGUI.listHostID2.setModel(dlm);
     }
 
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
-        if ((!viralClassificationState.equals("none")) && (hostIDState_1.equals("none") || hostIDState_2.equals("none"))) {
-            SortVirusListsLogic(viralClassificationState, "none", "none");
-        } else if ((viralClassificationState.equals("none")) && (!hostIDState_1.equals("none") && !hostIDState_2.equals("none"))) {
-            SortVirusListsLogic("none", hostIDState_1, hostIDState_2);
+        dlmChecked1.clear();
+        dlmChecked2.clear();
+        dlmCheckHalfway.clear();
+        for (Map.Entry<Integer, Virus> entry : virusHM.entrySet()) {
+            int virusID = entry.getKey();
+            Virus currentVirus = virusHM.get(virusID);
+            //dlmCheckHalfway.addElement(String.valueOf(virusID));
+            if (!viralClassificationState.equals("none")) {
+                if (currentVirus.SortVirusListCheckClassification(viralClassificationState)) {
+                    SortVirusListsLogic(currentVirus, hostIDState_1, hostIDState_2,virusID);
+                }
+            } else {
+                SortVirusListsLogic(currentVirus, hostIDState_1, hostIDState_2,virusID);
+            }
         }
-
+        VirusGUI.listHostID1.setModel(dlmChecked1);
+        VirusGUI.listHostID2.setModel(dlmChecked2);
+        /*
+         if ((!viralClassificationState.equals("none")) && (hostIDState_1.equals("none") || hostIDState_2.equals("none"))) {
+         SortVirusListsLogic(1, viralClassificationState, "none", "none");
+         } else if ((viralClassificationState.equals("none")) && (!hostIDState_1.equals("none") && !hostIDState_2.equals("none"))) {
+         SortVirusListsLogic(2, "none", hostIDState_1, hostIDState_2);
+         }
+         */
     }
 
-    private static void SortVirusListsLogic(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
-        for (int virusID : dlmList) {
-            Virus currentVirus = virusHM.get(virusID);
-            checkResult1 = currentVirus.SortVirusListCheck(viralClassificationState, hostIDState_1);
-            checkResult2 = currentVirus.SortVirusListCheck(viralClassificationState, hostIDState_2);
+    private static void SortVirusListsLogic(Virus currentVirus, String hostIDState_1, String hostIDState_2,int virusID) {
+        System.out.println("A1");
+        if (!hostIDState_1.equals("none")) {
+            System.out.println("A2");
+            if (currentVirus.SortVirusListCheckHostIDState(virusID)) {
+                System.out.println("A3");
+                dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+            }
+        } else {
+            dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
         }
+        if (!hostIDState_2.equals("none")) {
+            if (currentVirus.SortVirusListCheckHostIDState(virusID)) {
+                dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+            }
+        } else {
+            dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+        }
+
+        
+        /*
+         dlmChecked1.clear();
+         dlmChecked2.clear();
+         for (int virusID : dlmList) {
+         Virus currentVirus = virusHM.get(virusID);
+         switch (currentCase) {
+         case 1:
+         if (currentVirus.SortVirusListCheckClassification(viralClassificationState)) {
+         dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+         }
+         if (currentVirus.SortVirusListCheckClassification(viralClassificationState)) {
+         dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+         }
+         case 2:
+         if (currentVirus.SortVirusListCheckHostIDState(hostIDState_1)){
+         dlmChecked1.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+         System.out.println("check");
+         }
+         if (currentVirus.SortVirusListCheckHostIDState(hostIDState_2)){
+         dlmChecked2.addElement(String.valueOf(currentVirus.getId()) + "  (" + currentVirus.getSoort() + ")");
+         }
+         }
+         VirusGUI.listHostID1.setModel(dlmChecked1);
+         VirusGUI.listHostID2.setModel(dlmChecked2);
+         }
+         */
     }
 
     public static void Compare(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
