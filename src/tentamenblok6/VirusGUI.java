@@ -47,11 +47,11 @@ public class VirusGUI extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listHostID1 = new javax.swing.JList();
+        listVirusID1 = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listHostID2 = new javax.swing.JList();
+        listVirusID2 = new javax.swing.JList();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
+        listReplicateViruses = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -169,36 +169,36 @@ public class VirusGUI extends javax.swing.JFrame {
         jScrollPane1.setToolTipText("");
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        listHostID1.setModel(new javax.swing.AbstractListModel() {
+        listVirusID1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        listHostID1.setFixedCellWidth(39);
-        jScrollPane1.setViewportView(listHostID1);
+        listVirusID1.setFixedCellWidth(39);
+        jScrollPane1.setViewportView(listVirusID1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setToolTipText("");
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        listHostID2.setModel(new javax.swing.AbstractListModel() {
+        listVirusID2.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        listHostID2.setFixedCellWidth(39);
-        jScrollPane2.setViewportView(listHostID2);
+        listVirusID2.setFixedCellWidth(39);
+        jScrollPane2.setViewportView(listVirusID2);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setToolTipText("");
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jList3.setModel(new javax.swing.AbstractListModel() {
+        listReplicateViruses.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "no data" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(jList3);
+        jScrollPane3.setViewportView(listReplicateViruses);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel4.setText("File or URL:");
@@ -302,7 +302,7 @@ public class VirusGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,17 +333,14 @@ public class VirusGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void comboViralClassificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViralClassificationActionPerformed
-        updateSearchButton();
         VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboViralClassificationActionPerformed
 
     private void comboHostID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHostID2ActionPerformed
-        updateSearchButton();
         VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboHostID2ActionPerformed
 
     private void comboHostID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHostID1ActionPerformed
-        updateSearchButton();
         VirusLogica.SortVirusLists(comboViralClassification.getSelectedItem().toString(), comboHostID1.getSelectedItem().toString(), comboHostID2.getSelectedItem().toString());
     }//GEN-LAST:event_comboHostID1ActionPerformed
 
@@ -360,7 +357,7 @@ public class VirusGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void buttonFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFindActionPerformed
-        
+        VirusLogica.Compare();
     }//GEN-LAST:event_buttonFindActionPerformed
 
     /**
@@ -402,8 +399,9 @@ public class VirusGUI extends javax.swing.JFrame {
         req1 = comboViralClassification.getSelectedItem().toString();
         req2 = comboHostID1.getSelectedItem().toString();
         req3 = comboHostID2.getSelectedItem().toString();
-        
-        if (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none"))) {
+        // Old logic which was too beautiful to throw away:
+        // (fileLoaded && (!req1.equals("none")) || (!req2.equals("none") && !req3.equals("none")))
+        if (fileLoaded) {
             VirusGUI.buttonFind.setEnabled(true);
             VirusGUI.labelFindButtonUnderscript.setVisible(false);
         } else {
@@ -425,7 +423,6 @@ public class VirusGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JList jList3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
@@ -436,8 +433,9 @@ public class VirusGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     public static javax.swing.JLabel labelFindButtonUnderscript;
-    public static javax.swing.JList listHostID1;
-    public static javax.swing.JList listHostID2;
+    public static javax.swing.JList listReplicateViruses;
+    public static javax.swing.JList listVirusID1;
+    public static javax.swing.JList listVirusID2;
     // End of variables declaration//GEN-END:variables
 
 }

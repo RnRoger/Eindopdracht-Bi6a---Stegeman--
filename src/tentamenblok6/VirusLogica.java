@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -29,9 +30,13 @@ public class VirusLogica {
     public static ArrayList<String> uniqueHosts = new ArrayList<>();
     public static ArrayList<String> uniqueHostIDs = new ArrayList<>();
     private static DefaultListModel<String> dlm = new DefaultListModel<>();
+    private static DefaultListModel<String> replicatesListModel = new DefaultListModel<>();
     private static DefaultListModel<String> dlmChecked1 = new DefaultListModel<>();
     private static DefaultListModel<String> dlmChecked2 = new DefaultListModel<>();
     public static ArrayList<Integer> dlmList = new ArrayList<>();
+    public static ArrayList<Object> extractedViruses = new ArrayList<>();
+    public static ArrayList<Object> extractedVirusesDump = new ArrayList<>();
+    private static ListModel extractedListModel;
 
     public static void openFile(String filename) {
         if (filename.startsWith("http") || filename.startsWith("www.") || filename.startsWith("ftp:")) {
@@ -107,8 +112,8 @@ public class VirusLogica {
             dlmList.add(entry.getKey());
             dlm.addElement(String.valueOf(entry.getKey()) + "  (" + entry.getValue().getSoort() + ")");
         }
-        VirusGUI.listHostID1.setModel(dlm);
-        VirusGUI.listHostID2.setModel(dlm);
+        VirusGUI.listVirusID1.setModel(dlm);
+        VirusGUI.listVirusID2.setModel(dlm);
     }
 
     public static void SortVirusLists(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
@@ -124,8 +129,8 @@ public class VirusLogica {
                 SortVirusListsLogic(currentVirus, hostIDState_1, hostIDState_2);
             }
         }
-        VirusGUI.listHostID1.setModel(dlmChecked1);
-        VirusGUI.listHostID2.setModel(dlmChecked2);
+        VirusGUI.listVirusID1.setModel(dlmChecked1);
+        VirusGUI.listVirusID2.setModel(dlmChecked2);
     }
 
     private static void SortVirusListsLogic(Virus currentVirus, String hostIDState_1, String hostIDState_2) {
@@ -145,15 +150,25 @@ public class VirusLogica {
         }
     }
 
-    public static void Compare(String viralClassificationState, String hostIDState_1, String hostIDState_2) {
-        System.out.println("aaa" + viralClassificationState + hostIDState_1 + hostIDState_2);
-
-        /* SORTING
-         ArrayList<Virus> virusList = new ArrayList<Virus>(virusHM.values());
-         Collections.sort(virusList);
-         for (Virus str : virusList){
-         System.out.println("K: "+str.getId()+" - "+str.getHostList().size());
-         }
-         */
+    public static void Compare() {
+        extractedListModel = VirusGUI.listVirusID1.getModel();
+        extractedVirusesDump.clear();
+        replicatesListModel.clear();
+        extractedViruses.clear();
+        for (int i = 0; i < extractedListModel.getSize(); i++) {
+            extractedViruses.add(extractedListModel.getElementAt(i));
+        }
+        extractedListModel = VirusGUI.listVirusID2.getModel();
+        for (int i = 0; i < extractedListModel.getSize(); i++) {
+            extractedViruses.add(extractedListModel.getElementAt(i));
+        }
+        for (Object vir : extractedViruses){
+            if (extractedVirusesDump.contains(vir)){
+                replicatesListModel.addElement(vir.toString());
+            } else {
+                extractedVirusesDump.add(vir);
+            }
+        }
+        VirusGUI.listReplicateViruses.setModel(replicatesListModel);
     }
 }
